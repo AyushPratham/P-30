@@ -40,6 +40,13 @@ function setup(){
 
     //log6 = new Log(230,180,80, PI/2);
     slingshot = new SlingShot(bird.body,{x:200, y:50});
+    var canvasmouse = Matter.Mouse.create(canvas.elt)
+    canvasmouse.pixelRatio = pixelDensity()
+    var options = {
+        mouse: canvasmouse
+    }
+    mouseConstraint = Matter.MouseConstraint.create(engine, options)
+    World.add(world, mouseConstraint)
 }
 
 function draw(){
@@ -64,14 +71,22 @@ function draw(){
     bird.display();
     platform.display();
     //log6.display();
-    slingshot.display();    
+    slingshot.display();   
 }
 
-function mouseDragged(){
-    Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
-}
+//function mouseDragged(){
+    //Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+//}
 
 
 function mouseReleased(){
-    slingshot.fly();
+    setTimeout (()=>{
+        slingshot.fly();
+    }, 140) 
+}
+
+function keyPressed(){
+    if(keyCode === 32){
+        slingshot.attach(bird.body)
+    }
 }
